@@ -40,6 +40,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local caption records
+/data/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
