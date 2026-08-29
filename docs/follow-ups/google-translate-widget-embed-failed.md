@@ -18,11 +18,16 @@
 
 자동화 특유의 문제가 아니라 위젯 자체가 이 방식으로는 더 이상 동작하지 않는 것으로 결론지었다.
 
-## 의심 원인
+## 확인된 원인
 
-- 최근 구글이 이 위젯의 내부 구현을 변경해, `<select class="goog-te-combo">`를 직접 조작하는 전통적인 방식이 더 이상 실제 번역 트리거로 이어지지 않는 것으로 보인다(정확한 내부 동작은 비공개라 확인 불가).
-- `googtrans` 쿠키를 사전에 설정하고 새로고침하는 방식도 함께 시도했으나 동일하게 동작하지 않았다.
+추가로 위젯 내부 JS 번들(`element_main.js`)을 직접 받아 살펴봤다. `goog-te-combo`의 `change` 리스너는 정상적으로 등록되어 있고(`addEventListener("change", ...)`), 실제로 값이 "ko"로 바뀐 change 이벤트도 정상 전달된다(리스너 자체는 호출됨). 그런데 그 이후 실제 번역을 요청하는 네트워크 호출이 단 한 건도 발생하지 않는다 — 즉 이벤트는 받지만 내부 로직 어딘가에서 조용히 중단된다.
+
+원인은 코드 문제가 아니라 **구글 정책**이었다:
+
+- 구글은 이 "Website Translator" 위젯을 2019년에 신규(상업용) 사이트 대상으로는 중단했다. 위젯 스크립트 자체(드롭다운 UI, 언어 옵션)는 여전히 배포되지만, 실제 번역을 수행하는 백엔드 동작은 승인된 사이트에만 제공되는 것으로 보인다.
+- 2020년 이후로는 정부·비영리·학술 기관 등 비상업 목적 사이트로만 이용이 제한되어 있다. 우리 프로젝트(개인용 로컬 도구)는 이 허용 대상에 해당하지 않아, 위젯 UI만 로드되고 실제 번역 트리거는 조용히 무시된 것으로 보인다.
+- 참고: [Google Translate Widget Discontinued | Brave River](https://www.braveriver.com/blog/google-discontinues-google-translate-widget/), [Google Translate Website Widget Discontinued — TranslatePress](https://translatepress.com/google-translate-website-widget/)
 
 ## 결론 / 다음 단계
 
-이 접근은 폐기하고 서버측 번역(Google 비공식 엔드포인트 → MyMemory 폴백)으로 되돌렸다. 이 방식을 다시 시도할 필요는 없다 — 재시도하기 전에 구글이 위젯 스펙을 변경했는지부터 확인할 것.
+이 접근은 폐기하고 서버측 번역(Google 비공식 엔드포인트 → MyMemory 폴백)으로 되돌렸다. **재시도할 가치 없음** — 코드를 어떻게 고쳐도 구글이 이 위젯의 번역 백엔드를 우리 사이트 종류(개인/상업용)에 허용하지 않는 한 동작하지 않는다.
