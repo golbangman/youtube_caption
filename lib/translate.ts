@@ -1,6 +1,3 @@
-// 번역 기능은 추후 개발로 보류 (docs/follow-ups/translate-provider-rate-limit.md 참고).
-// 재개 시 아래 구현을 그대로 되살리면 된다.
-/*
 const MAX_CHUNK_LENGTH = 450;
 
 interface MyMemoryResponse {
@@ -120,4 +117,3 @@ export async function translateToKorean(text: string): Promise<string> {
   }
   return translated.join(" ");
 }
-*/

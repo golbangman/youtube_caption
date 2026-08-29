@@ -35,7 +35,7 @@ export default async function VideoPage(props: PageProps<"/videos/[id]">) {
           />
         </div>
 
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <section className="flex flex-col gap-2">
             <h2 className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
               영어 자막
@@ -44,7 +44,6 @@ export default async function VideoPage(props: PageProps<"/videos/[id]">) {
               {record.englishText}
             </p>
           </section>
-          {/* 한국어 번역은 추후 개발로 보류 (docs/follow-ups/translate-provider-rate-limit.md 참고)
           <section className="flex flex-col gap-2">
             <h2 className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
               한국어 번역
@@ -53,7 +52,6 @@ export default async function VideoPage(props: PageProps<"/videos/[id]">) {
               {record.koreanText}
             </p>
           </section>
-          */}
         </div>
       </main>
     </div>

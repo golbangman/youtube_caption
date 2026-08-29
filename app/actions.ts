@@ -3,8 +3,7 @@
 import { redirect } from "next/navigation";
 
 import { fetchEnglishTranscript, isYoutubeUrl, YtDlpNotInstalledError } from "@/lib/youtube";
-// 번역 기능은 추후 개발로 보류 (docs/follow-ups/translate-provider-rate-limit.md 참고)
-// import { translateToKorean } from "@/lib/translate";
+import { translateToKorean } from "@/lib/translate";
 import { getRecordByVideoId, saveRecord } from "@/lib/store";
 
 export interface ProcessState {
@@ -42,15 +41,13 @@ export async function processVideoUrl(
     redirect(`/videos/${transcript.videoId}`);
   }
 
-  // 번역 기능은 추후 개발로 보류 (docs/follow-ups/translate-provider-rate-limit.md 참고)
-  // let koreanText: string;
-  // try {
-  //   koreanText = await translateToKorean(transcript.text);
-  // } catch (err) {
-  //   console.error("translateToKorean failed:", err);
-  //   return { error: "번역에 실패했습니다. 잠시 후 다시 시도해주세요." };
-  // }
-  const koreanText = "";
+  let koreanText: string;
+  try {
+    koreanText = await translateToKorean(transcript.text);
+  } catch (err) {
+    console.error("translateToKorean failed:", err);
+    return { error: "번역에 실패했습니다. 잠시 후 다시 시도해주세요." };
+  }
 
   await saveRecord({
     id: transcript.videoId,

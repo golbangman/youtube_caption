@@ -14,7 +14,7 @@ export default async function Home() {
             유튜브 자막 번역
           </h1>
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            영어 자막이 있는 유튜브 링크를 입력하면 영상과 함께 영어 자막을 볼 수 있어요. (한국어 번역은 추후 지원 예정)
+            영어 자막이 있는 유튜브 링크를 입력하면 영상과 함께 영어·한국어 자막을 볼 수 있어요.
           </p>
         </div>
 
